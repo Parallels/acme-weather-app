@@ -67,7 +67,7 @@ mixin Constants {
     } else if (Platform.isWindows) {
       os = "windows";
     } else if (Platform.isLinux) {
-      os = "linux";
+      os = "ubuntu";
     } else {
       os = "unknown";
     }
