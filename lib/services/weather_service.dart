@@ -27,6 +27,10 @@ class WeatherService with ChangeNotifier {
   }
 
   Future<bool> getIcon(String icon) async {
+    if (kIsWeb) {
+      return true;
+    }
+
     var baseUrl = Constants.iconBaseUrl;
     var url = Uri.parse('$baseUrl/$icon');
     final resp = await http.get(url);

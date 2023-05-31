@@ -28,26 +28,23 @@ mixin Constants {
 
   static get baseUrl {
     var baseUrl = "";
-    var os = "";
     if (kDebugMode) {
-      if (Platform.isAndroid) {
-        baseUrl = 'http://10.0.2.2:$port';
-        os = "android";
-      } else if (Platform.isIOS) {
+      if (kIsWeb) {
         baseUrl = 'http://192.168.4.148:$port';
-        os = "ios";
-      } else if (Platform.isMacOS) {
-        baseUrl = 'http://192.168.4.148:$port';
-        os = "macos";
-      } else if (Platform.isWindows) {
-        baseUrl = 'http://192.168.4.148:$port';
-        os = "windows";
-      } else if (Platform.isLinux) {
-        baseUrl = 'http://192.168.4.148:$port';
-        os = "linux";
       } else {
-        baseUrl = 'http://localhost:$port';
-        os = "unknown";
+        if (Platform.isAndroid) {
+          baseUrl = 'http://10.0.2.2:$port';
+        } else if (Platform.isIOS) {
+          baseUrl = 'http://192.168.4.148:$port';
+        } else if (Platform.isMacOS) {
+          baseUrl = 'http://192.168.4.148:$port';
+        } else if (Platform.isWindows) {
+          baseUrl = 'http://192.168.4.148:$port';
+        } else if (Platform.isLinux) {
+          baseUrl = 'http://192.168.4.148:$port';
+        } else {
+          baseUrl = 'http://localhost:$port';
+        }
       }
     } else {
       baseUrl = 'http://api.parallels-demo.com';
@@ -58,18 +55,22 @@ mixin Constants {
 
   static get iconBaseUrl {
     var os = "";
-    if (Platform.isAndroid) {
-      os = "android";
-    } else if (Platform.isIOS) {
-      os = "ios";
-    } else if (Platform.isMacOS) {
-      os = "macos";
-    } else if (Platform.isWindows) {
-      os = "windows";
-    } else if (Platform.isLinux) {
-      os = "ubuntu";
+    if (kIsWeb) {
+      os = "web";
     } else {
-      os = "unknown";
+      if (Platform.isAndroid) {
+        os = "android";
+      } else if (Platform.isIOS) {
+        os = "ios";
+      } else if (Platform.isMacOS) {
+        os = "macos";
+      } else if (Platform.isWindows) {
+        os = "windows";
+      } else if (Platform.isLinux) {
+        os = "ubuntu";
+      } else {
+        os = "unknown";
+      }
     }
 
     return '$baseUrl/icon/$os';

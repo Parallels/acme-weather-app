@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:acme_weather_app/constants/constants.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:acme_weather_app/services/weather_service.dart';
@@ -37,7 +39,9 @@ class _WeatherForecastState extends State<WeatherForecast> {
   }
 
   Future<ForecastResponse> _getForecast() async {
-    _iconDir = await getTemporaryDirectory();
+    if (!kIsWeb) {
+      _iconDir = await getTemporaryDirectory();
+    }
     _forecastResponse = await widget.weatherService.getWeather(widget.city);
     return Future.delayed(const Duration(seconds: 0), () {
       return _forecastResponse!;
@@ -133,15 +137,27 @@ class _WeatherForecastState extends State<WeatherForecast> {
                                                                     .toString())),
                                                         style: const TextStyle(
                                                             fontSize: 12)),
-                                                    Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(top: 5),
-                                                        child: SizedBox(
-                                                            width: 50,
-                                                            height: 50,
-                                                            child: Image.file(File(
-                                                                '${_iconDir!.path}/${forecast.icon}.png')))),
+                                                    if (kIsWeb)
+                                                      Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(top: 5),
+                                                          child: SizedBox(
+                                                              width: 50,
+                                                              height: 50,
+                                                              child: Image.network(
+                                                                  '${Constants.iconBaseUrl}/${forecast.icon}'))),
+                                                    if (!kIsWeb)
+                                                      Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(top: 5),
+                                                          child: SizedBox(
+                                                              width: 50,
+                                                              height: 50,
+                                                              child: Image.file(
+                                                                  File(
+                                                                      '${_iconDir!.path}/${forecast.icon}.png')))),
                                                     Padding(
                                                         padding:
                                                             const EdgeInsets
